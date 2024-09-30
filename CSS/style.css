@@ -1,0 +1,29 @@
+body {
+    background-color: #2C1E1E;
+    color: #FFF;
+    font-family: 'Arial', sans-serif;
+    
+}
+.login-container {
+    background-color: rgba(0,0,0,0.7);
+    border-radius: 10px;
+    padding: 30px;
+    margin-top: 50px;
+}
+.btn-burger {
+    background-color: #D35400;
+    border-color: #D35400;
+}
+.btn-burger:hover {
+    background-color: #E67E22;
+    border-color: #E67E22;
+}
+.logo {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+.user-type {
+    font-size: 2em;
+    font-weight: bold;
+    margin-bottom: 20px;
+}

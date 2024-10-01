@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MOS Burger Cashier Home</title>
+    <link rel="icon" type="image/x-icon" href="IMG/Group 1.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/cashier_style.css">
+   
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <img src="IMG/Group 1.png" width="80" height="80">
+            <a class="navbar-brand" href="#">MOS Burger</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#" id="searchCustomer">Search Customer</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" id="orderHistory">Order History</a>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center profile-section">
+                    <img src="IMG/profile-avatar.png" alt="Cashier Profile" class="profile-pic me-2">
+                    <span class="text-light">kamal</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container main-content">
+        <h1 class="text-center mb-4">Welcome to MOS Burger</h1>
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="input-group mb-3">
+                    <input type="text" class="form-control" placeholder="Enter Mobile Number to Search Customers" id="customerSearch">
+                    <button class="btn btn-burger" type="button" id="searchBtn">Search</button>
+                </div>
+            </div>
+        </div>
+        <div id="customerDetails" class="customer-details" style="display: none;">
+            <h4>Customer Details</h4>
+            <p id="customerName"></p>
+            <p id="customerPhone"></p>
+            <p id="lastOrder"></p>
+        </div>
+    </div>
+
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="JS/Cahier_home_page.js"></script>
+</body>
+</html>

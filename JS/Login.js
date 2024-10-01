@@ -43,16 +43,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
+    
+   
 
     // Function to authenticate cashier
     function authenticateCashier(username, password) {
         // This is a mock authentication. In a real application, you would check against a database or API
-        if (username === 'Sachin' && password === '1234') {
+        if (username === 'kamal' && password === '1234') {
             alert('Cashier login successful');
             window.location.href = 'Cashier_home_page.html';
         } else {
             alert('Invalid cashier credentials');
         }
+        window.location.href = 'Cashier_home_page.html?username=' + encodeURIComponent(username);
     }
 
     // Function to authenticate admin

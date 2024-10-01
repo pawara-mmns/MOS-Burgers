@@ -101,6 +101,19 @@ document.addEventListener('DOMContentLoaded', function() {
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
     }
+     // Continue order function
+     window.continueOrder = function(customerId) {
+        alert(`Continuing order for customer ${customerId}`);
+        // Implement order continuation logic here
+    };
+    // View customer details function
+    window.viewCustomerDetails = function(customerId) {
+        window.location.href = `customer_details.html?id=${customerId}`;
+    };
+    // Add customer function
+    window.addCustomer = function(phoneNumber) {
+        window.location.href = `add_customer.html?phone=${phoneNumber}`;
+    };
 
     // Order ID generation
     let currentOrderId = 1;

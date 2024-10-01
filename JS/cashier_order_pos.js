@@ -20,13 +20,19 @@ document.addEventListener('DOMContentLoaded', function() {
     const orderItemsContainer = document.getElementById('orderItems');
     const totalAmountElement = document.getElementById('totalAmount');
     const placeOrderBtn = document.getElementById('placeOrderBtn');
-    const searchInput = document.getElementById('searchInput');
+
+    // Check for order details in localStorage
+    const orderDetails = JSON.parse(localStorage.getItem('currentOrder')) || { orderId: '#0001', customerName: 'John Doe' };
+
+    // Display order ID and customer name
+    document.getElementById('orderId').textContent = orderDetails.orderId;
+    document.getElementById('customerName').textContent = orderDetails.customerName;
 
     function renderMenuItems(items) {
         menuItemsContainer.innerHTML = items.map(item => `
             <div class="col-md-4 mb-4">
                 <div class="menu-item">
-                    <img src="${item.image}" alt="${item.name}" class="mb-2">
+                    <img src="${item.image}" alt="${item.name}" class="mb-2" style="width: 100%; height: auto;">
                     <h5>${item.name}</h5>
                     <p>LKR ${item.price.toFixed(2)}</p>
                     <button class="btn btn-burger btn-sm w-100" onclick="addToOrder(${item.id})">Add to Order</button>
@@ -89,13 +95,29 @@ document.addEventListener('DOMContentLoaded', function() {
         renderOrderItems();
     });
 
-    searchInput.addEventListener('input', function() {
-        const searchTerm = this.value.toLowerCase();
-        const filteredItems = menuData.filter(item => 
-            item.name.toLowerCase().includes(searchTerm)
-        );
-        renderMenuItems(filteredItems);
-    });
+    window.printBill = function() {
+        const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+        const billContent = `
+            <div style="text-align: center;">
+                <h1>Bill</h1>
+                <p>Order ID: ${orderDetails.orderId}</p>
+                <p>Customer Name: ${orderDetails.customerName}</p>
+                <h2>Ordered Items:</h2>
+                <ul style="list-style-type: none; padding: 0;">
+                    ${orderItems.map(item => `<li>${item.name} x${item.quantity}: LKR ${(item.price * item.quantity).toFixed(2)}</li>`).join('')}
+                </ul>
+                <h3>Total: LKR ${total.toFixed(2)}</h3>
+            </div>
+        `;
+
+        const printWindow = window.open('', '', 'height=600,width=800');
+        printWindow.document.write('<html><head><title>Bill</title></head><body>');
+        printWindow.document.write(billContent);
+        printWindow.document.write('</body></html>');
+        printWindow.document.close();
+        printWindow.print();
+    };
 
     renderMenuItems(menuData);
 });

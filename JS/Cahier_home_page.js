@@ -1,4 +1,4 @@
-// cashier_home.js
+// Cahier_home_page.js
 
 document.addEventListener('DOMContentLoaded', function() {
     // Load customers from localStorage or use default data if not available
@@ -24,8 +24,6 @@ document.addEventListener('DOMContentLoaded', function() {
     const searchCustomerLink = document.getElementById('searchCustomer');
     const orderHistoryLink = document.getElementById('orderHistory');
     const cashierName = document.querySelector('.profile-section span');
-    const searchInput = document.querySelector('.input-group input');
-    const customerDetails = document.getElementById('customerDetails');
     const mainContent = document.querySelector('.main-content');
 
     // Update cashier name
@@ -53,7 +51,7 @@ document.addEventListener('DOMContentLoaded', function() {
             <div id="customerDetails" class="customer-details" style="display: none;"></div>
         `;
         // Reattach event listener to new search input
-        searchInput = document.querySelector('.input-group input');
+        const searchInput = document.querySelector('.input-group input');
         searchInput.addEventListener('input', handleSearch);
     });
 
@@ -68,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function() {
     function handleSearch() {
         const searchTerm = this.value.trim();
         const customer = customers.find(c => c.phone.includes(searchTerm));
+        
+        const customerDetails = document.getElementById('customerDetails');
         
         if (searchTerm.length === 0) {
             customerDetails.style.display = 'none';
@@ -97,23 +97,37 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Attach event listener to search input
+    const searchInput = document.querySelector('.input-group input');
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
     }
 
-    // Continue order function
+    // Order ID generation
+    let currentOrderId = 1;
+
+    function generateOrderId() {
+        return `#${String(currentOrderId).padStart(4, '0')}`;
+    }
+
     window.continueOrder = function(customerId) {
-        alert(`Continuing order for customer ${customerId}`);
-        // Implement order continuation logic here
+        const customer = customers.find(c => c.id === customerId);
+        if (customer) {
+            localStorage.setItem('currentOrder', JSON.stringify({
+                orderId: generateOrderId(),
+                customerName: customer.name
+            }));
+            window.location.href = 'Cashier_order_pos.html';
+        }
     };
 
-    // View customer details function
-    window.viewCustomerDetails = function(customerId) {
-        window.location.href = `customer_details.html?id=${customerId}`;
-    };
+    // Reset order ID when a new order is started
+    function resetOrder() {
+        currentOrderId++;
+    }
 
-    // Add customer function
-    window.addCustomer = function(phoneNumber) {
-        window.location.href = `add_customer.html?phone=${phoneNumber}`;
-    };
+    // Call this function when navigating back to the cashier home page
+    document.getElementById('placeOrderBtn').addEventListener('click', function() {
+        resetOrder();
+        window.location.href = 'Cashier_home_page.html';
+    });
 });

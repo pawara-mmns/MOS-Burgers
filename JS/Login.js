@@ -51,11 +51,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // This is a mock authentication. In a real application, you would check against a database or API
         if (username === 'kamal' && password === '1234') {
             alert('Cashier login successful');
-            window.location.href = 'Cashier_home_page.html';
+            window.location.href = 'Cashier_home_page.html?username=' + encodeURIComponent(username);
         } else {
             alert('Invalid cashier credentials');
         }
-        window.location.href = 'Cashier_home_page.html?username=' + encodeURIComponent(username);
+        
     }
 
     // Function to authenticate admin

@@ -112,7 +112,7 @@ document.addEventListener('DOMContentLoaded', function() {
         `;
 
         const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>Bill</title></head><body>');
+        printWindow.document.write('<html><head><title>MOS Burgers Bill</title></head><body>');
         printWindow.document.write(billContent);
         printWindow.document.write('</body></html>');
         printWindow.document.close();

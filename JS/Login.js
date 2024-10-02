@@ -50,10 +50,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function authenticateCashier(username, password) {
         // This is a mock authentication. In a real application, you would check against a database or API
         if (username === 'kamal' && password === '1234') {
-            alert('Cashier login successful');
+           
             window.location.href = 'Cashier_home_page.html?username=' + encodeURIComponent(username);
         } else {
-            alert('Invalid cashier credentials');
+            
         }
         
     }
@@ -62,10 +62,10 @@ document.addEventListener('DOMContentLoaded', function() {
     function authenticateAdmin(username, password) {
         // This is a mock authentication. In a real application, you would check against a database or API
         if (username === 'admin' && password === 'admin123') {
-            alert('Admin login successful');
+            
             window.location.href = 'admin_home_page.html'; // Assuming you have an admin home page
         } else {
-            alert('Invalid admin credentials');
+            
         }
     }
 });

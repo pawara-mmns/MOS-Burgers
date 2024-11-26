@@ -1,12 +1,9 @@
-// customer_details.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const form = document.getElementById('customerForm');
     const deleteButton = document.getElementById('deleteCustomer');
     const urlParams = new URLSearchParams(window.location.search);
     const customerId = urlParams.get('id');
 
-    // Load customers from localStorage
     let customers = JSON.parse(localStorage.getItem('customers')) || [];
     let customer = customers.find(c => c.id === customerId);
 
@@ -16,13 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
         return;
     }
 
-    // Populate form fields
     document.getElementById('name').value = customer.name;
     document.getElementById('phone').value = customer.phone;
     document.getElementById('address').value = customer.address;
     document.getElementById('lastOrder').value = customer.lastOrder;
 
-    // Update customer
+    
     form.addEventListener('submit', function(e) {
         e.preventDefault();
         customer.name = document.getElementById('name').value;
@@ -35,7 +31,6 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Customer updated successfully!');
     });
 
-    // Delete customer
     deleteButton.addEventListener('click', function() {
         if (confirm('Are you sure you want to delete this customer?')) {
             customers = customers.filter(c => c.id !== customerId);

@@ -17,9 +17,6 @@ const menuData = [
     { id: 16, name: "MOS Water", price: 80.00, image: "ITEM_IMG/DC_202402_5474_DasaniBottledWater_1564x1564-1_nutrition-calculator-tile.jpeg" },
     { id: 17, name: "French Fries", price: 200.00, image: "ITEM_IMG/DC_202002_6050_SmallFrenchFries_Standing_1564x1564-1_nutrition-calculator-tile.jpeg" },
     { id: 18, name: "Latte", price: 300.00, image: "ITEM_IMG/DC_201906_7659_MediumIcedMocha_Glass_A1_832x472_nutrition-calculator-tile.jpeg" },
-
-
-
 ];
 
 let orderItems = [];
@@ -29,13 +26,42 @@ document.addEventListener('DOMContentLoaded', function() {
     const orderItemsContainer = document.getElementById('orderItems');
     const totalAmountElement = document.getElementById('totalAmount');
     const placeOrderBtn = document.getElementById('placeOrderBtn');
+    const orderPage = document.getElementById('orderPage');
+    const searchInput = document.getElementById('searchInput');
 
-    // Check for order details in localStorage
-    const orderDetails = JSON.parse(localStorage.getItem('currentOrder')) || { orderId: '#0001', customerName: 'John Doe' };
+    let currentOrderId = localStorage.getItem('currentOrderId');
+    if (!currentOrderId) {
+        currentOrderId = 1; 
+    } else {
+        currentOrderId = parseInt(currentOrderId) + 1;
+    }
+    localStorage.setItem('currentOrderId', currentOrderId); 
 
-    // Display order ID and customer name
-    document.getElementById('orderId').textContent = orderDetails.orderId;
-    document.getElementById('customerName').textContent = orderDetails.customerName;
+    const currentOrder = JSON.parse(localStorage.getItem('currentOrder')) || { 
+        orderId: `#${currentOrderId.toString().padStart(4, '0')}`, 
+        customerName: 'John Doe'
+    };
+
+    document.getElementById('orderId').textContent = currentOrder.orderId;
+    document.getElementById('customerName').textContent = currentOrder.customerName;
+
+   
+    if (searchInput) {
+        searchInput.addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredItems = menuData.filter(item => 
+                item.name.toLowerCase().includes(searchTerm)
+            );
+            renderMenuItems(filteredItems);
+        });
+    }
+
+
+    orderPage.addEventListener('click', function(e) {
+        e.preventDefault();
+        resetOrder();
+        window.location.href = 'Cashier_home_page.html';
+    });
 
     function renderMenuItems(items) {
         menuItemsContainer.innerHTML = items.map(item => `
@@ -102,30 +128,191 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('Order placed successfully!');
         orderItems = [];
         renderOrderItems();
+        
+       
+        localStorage.setItem('currentOrderId', currentOrderId);
     });
 
     window.printBill = function() {
         const total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+        const date = new Date().toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
 
         const billContent = `
-            <div style="text-align: center;">
-                <h1>Bill</h1>
-                <p>Order ID: ${orderDetails.orderId}</p>
-                <p>Customer Name: ${orderDetails.customerName}</p>
-                <h2>Ordered Items:</h2>
-                <ul style="list-style-type: none; padding: 0;">
-                    ${orderItems.map(item => `<li>${item.name} x${item.quantity}: LKR ${(item.price * item.quantity).toFixed(2)}</li>`).join('')}
-                </ul>
-                <h3>Total: LKR ${total.toFixed(2)}</h3>
-            </div>
+            <html>
+            <head>
+                <title>MOS Burgers Bill</title>
+                <style>
+                    body {
+                        font-family: 'Arial', sans-serif;
+                        margin: 0;
+                        padding: 20px;
+                        background-color: #f9f9f9;
+                    }
+                    .bill-container {
+                        max-width: 400px;
+                        margin: 0 auto;
+                        background-color: white;
+                        padding: 30px;
+                        border-radius: 10px;
+                        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+                    }
+                    .bill-header {
+                        text-align: center;
+                        margin-bottom: 30px;
+                    }
+                    .company-name {
+                        font-size: 24px;
+                        font-weight: bold;
+                        color: #D35400;
+                        margin: 10px 0;
+                    }
+                    .bill-title {
+                        font-size: 18px;
+                        color: #333;
+                        margin: 10px 0;
+                    }
+                    .bill-details {
+                        margin: 20px 0;
+                        padding: 15px 0;
+                        border-top: 2px dashed #eee;
+                        border-bottom: 2px dashed #eee;
+                    }
+                    .detail-row {
+                        display: flex;
+                        justify-content: space-between;
+                        margin: 5px 0;
+                        color: #555;
+                    }
+                    .items-table {
+                        width: 100%;
+                        border-collapse: collapse;
+                        margin: 20px 0;
+                    }
+                    .items-table th {
+                        text-align: left;
+                        padding: 10px 5px;
+                        border-bottom: 2px solid #eee;
+                        color: #666;
+                    }
+                    .items-table td {
+                        padding: 10px 5px;
+                        border-bottom: 1px solid #eee;
+                        color: #444;
+                    }
+                    .total-section {
+                        margin-top: 20px;
+                        padding-top: 15px;
+                        border-top: 2px dashed #eee;
+                    }
+                    .total-row {
+                        display: flex;
+                        justify-content: space-between;
+                        font-weight: bold;
+                        font-size: 18px;
+                        color: #D35400;
+                    }
+                    .footer {
+                        margin-top: 30px;
+                        text-align: center;
+                        color: #888;
+                        font-size: 14px;
+                    }
+                    .thank-you {
+                        margin-top: 20px;
+                        text-align: center;
+                        font-size: 16px;
+                        color: #D35400;
+                    }
+                    @media print {
+                        body {
+                            background-color: white;
+                        }
+                        .bill-container {
+                            box-shadow: none;
+                        }
+                    }
+                </style>
+            </head>
+            <body>
+                <div class="bill-container">
+                    <div class="bill-header">
+                        <div class="company-name">MOS BURGERS</div>
+                        <div class="bill-title">SALES INVOICE</div>
+                    </div>
+                    
+                    <div class="bill-details">
+                        <div class="detail-row">
+                            <span>Order ID:</span>
+                            <span>${currentOrder.orderId}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Date:</span>
+                            <span>${date}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span>Customer:</span>
+                            <span>${currentOrder.customerName}</span>
+                        </div>
+                    </div>
+
+                    <table class="items-table">
+                        <thead>
+                            <tr>
+                                <th>Item</th>
+                                <th>Qty</th>
+                                <th>Price</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            ${orderItems.map(item => `
+                                <tr>
+                                    <td>${item.name}</td>
+                                    <td>${item.quantity}</td>
+                                    <td>LKR ${item.price.toFixed(2)}</td>
+                                    <td>LKR ${(item.price * item.quantity).toFixed(2)}</td>
+                                </tr>
+                            `).join('')}
+                        </tbody>
+                    </table>
+
+                    <div class="total-section">
+                        <div class="total-row">
+                            <span>Total Amount:</span>
+                            <span>LKR ${total.toFixed(2)}</span>
+                        </div>
+                    </div>
+
+                    <div class="thank-you">
+                        Thank you for dining with us!
+                    </div>
+                    
+                    <div class="footer">
+                        <p>MOS Burgers - Delicious burgers, happy customers!</p>
+                        <p>📞 +94 71 69 6996 | 🌐 www.mosburgers.lk</p>
+                    </div>
+                </div>
+            </body>
+            </html>
         `;
 
-        const printWindow = window.open('', '', 'height=600,width=800');
-        printWindow.document.write('<html><head><title>MOS Burgers Bill</title></head><body>');
+        const printWindow = window.open('', '', 'height=800,width=600');
         printWindow.document.write(billContent);
-        printWindow.document.write('</body></html>');
         printWindow.document.close();
         printWindow.print();
+    };
+
+    window.resetOrder = function() {
+        orderItems = [];
+        renderOrderItems();
+       
+        localStorage.removeItem('currentOrder');
     };
 
     renderMenuItems(menuData);

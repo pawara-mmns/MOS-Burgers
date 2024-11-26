@@ -3,7 +3,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const userTypeElement = document.getElementById('userType');
     const loginForm = document.querySelector('form');
 
-    // Function to switch between Cashier and Admin login
+    
     function switchUserType() {
         const currentType = userTypeElement.textContent.trim();
         if (currentType === 'Cashier Login') {
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add click event listener to the switch user link
+    
     if (switchUserLink) {
         switchUserLink.addEventListener('click', function(e) {
             e.preventDefault();
@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // Function to handle login
     function handleLogin(e) {
         e.preventDefault();
         const username = document.querySelector('input[type="text"]').value;
@@ -39,32 +38,34 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Add submit event listener to the login form
+   
     if (loginForm) {
         loginForm.addEventListener('submit', handleLogin);
     }
     
    
 
-    // Function to authenticate cashier
+    //Authenticate cashier
     function authenticateCashier(username, password) {
-        // This is a mock authentication. In a real application, you would check against a database or API
+       
         if (username === 'kamal' && password === '1234') {
            
             window.location.href = 'Cashier_home_page.html?username=' + encodeURIComponent(username);
         } else {
+            alert('Invalid cashier credentials');
             
         }
         
     }
 
-    // Function to authenticate admin
+    //Authenticate admin
     function authenticateAdmin(username, password) {
-        // This is a mock authentication. In a real application, you would check against a database or API
+       
         if (username === 'admin' && password === 'admin123') {
             
-            window.location.href = 'admin_home_page.html'; // Assuming you have an admin home page
+            window.location.href = 'admin_home_page.html'; 
         } else {
+            alert('Invalid admin credentials');
             
         }
     }

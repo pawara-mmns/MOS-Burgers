@@ -1,7 +1,5 @@
-// Cahier_home_page.js
-
 document.addEventListener('DOMContentLoaded', function() {
-    // Load customers from localStorage or use default data if not available
+    
     let customers = JSON.parse(localStorage.getItem('customers')) || [
         { id: '1001', name: 'John Perera', phone: '077-456-7890', address: '123 Galle Rd, Colombo', lastOrder: 'Cheeseburger Combo' },
         { id: '1002', name: 'Emma Jayasinghe', phone: '071-567-8901', address: '456 Kandy Rd, Kandy', lastOrder: 'Veggie Burger' },
@@ -15,25 +13,25 @@ document.addEventListener('DOMContentLoaded', function() {
         { id: '1010', name: 'Mia Gunasekara', phone: '074-345-6789', address: '707 Hambantota Rd, Hambantota', lastOrder: 'Crispy Fish Sandwich' }
     ];
 
-    // Save initial data to localStorage if it doesn't exist
+   
     if (!localStorage.getItem('customers')) {
         localStorage.setItem('customers', JSON.stringify(customers));
     }
 
-    // DOM elements
+  
     const searchCustomerLink = document.getElementById('searchCustomer');
     const orderHistoryLink = document.getElementById('orderHistory');
     const cashierName = document.querySelector('.profile-section span');
     const mainContent = document.querySelector('.main-content');
 
-    // Update cashier name
+ 
     const urlParams = new URLSearchParams(window.location.search);
     const username = urlParams.get('username');
     if (username) {
         cashierName.textContent = username;
     }
 
-    // Switch between Search Customer and Order History
+   
     searchCustomerLink.addEventListener('click', function(e) {
         e.preventDefault();
         searchCustomerLink.classList.add('active');
@@ -50,19 +48,11 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             <div id="customerDetails" class="customer-details" style="display: none;"></div>
         `;
-        // Reattach event listener to new search input
+       
         const searchInput = document.querySelector('.input-group input');
         searchInput.addEventListener('input', handleSearch);
     });
 
-    orderHistoryLink.addEventListener('click', function(e) {
-        e.preventDefault();
-        orderHistoryLink.classList.add('active');
-        searchCustomerLink.classList.remove('active');
-        mainContent.innerHTML = '<h2 class="text-center">Order History</h2><p class="text-center">Order history functionality to be implemented.</p>';
-    });
-
-    // Search functionality
     function handleSearch() {
         const searchTerm = this.value.trim();
         const customer = customers.find(c => c.phone.includes(searchTerm));
@@ -96,26 +86,25 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Attach event listener to search input
+   
     const searchInput = document.querySelector('.input-group input');
     if (searchInput) {
         searchInput.addEventListener('input', handleSearch);
     }
-     // Continue order function
+
      window.continueOrder = function(customerId) {
         alert(`Continuing order for customer ${customerId}`);
-        // Implement order continuation logic here
+       
     };
-    // View customer details function
+   
     window.viewCustomerDetails = function(customerId) {
         window.location.href = `customer_details.html?id=${customerId}`;
     };
-    // Add customer function
+ 
     window.addCustomer = function(phoneNumber) {
         window.location.href = `add_customer.html?phone=${phoneNumber}`;
     };
 
-    // Order ID generation
     let currentOrderId = 1;
 
     function generateOrderId() {
@@ -133,12 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     };
 
-    // Reset order ID when a new order is started
+  
     function resetOrder() {
         currentOrderId++;
     }
 
-    // Call this function when navigating back to the cashier home page
+    
     document.getElementById('placeOrderBtn').addEventListener('click', function() {
         resetOrder();
         window.location.href = 'Cashier_home_page.html';
